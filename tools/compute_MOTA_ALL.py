@@ -3,15 +3,11 @@ import numpy as np
 import motmetrics as mm
 import trackeval
 
-# --- 专治 NumPy 2.0 报错的补丁 ---
 if not hasattr(np, 'asfarray'):
     np.asfarray = lambda a: np.asarray(a, dtype=float)
 
 
 def compute_iou(box1, box2):
-    """
-    计算两组边界框的 IoU 矩阵
-    """
     if len(box1) == 0 or len(box2) == 0:
         return np.zeros((len(box1), len(box2)), dtype=float)
 
@@ -33,7 +29,6 @@ def compute_iou(box1, box2):
 
 
 def compute_hota_for_sequence(gt_file, res_file):
-    # 读取数据
     gt_raw = mm.io.loadtxt(gt_file, fmt="mot16", min_confidence=1)
     ts_raw = mm.io.loadtxt(res_file, fmt="mot16")
 
@@ -65,39 +60,32 @@ def compute_hota_for_sequence(gt_file, res_file):
             boxes_gt = np.atleast_2d(d_gt.iloc[:, :4].values).astype(float).copy()
             boxes_gt[:, 2:] += boxes_gt[:, :2]
 
-            # 使用映射字典将原始 ID 转换为连续 ID
             raw_ids_gt = np.atleast_1d(d_gt.index.values).astype(int)
             ids_gt = np.array([gt_id_map[x] for x in raw_ids_gt], dtype=int)
         else:
             boxes_gt = np.empty((0, 4), dtype=float)
             ids_gt = np.empty((0,), dtype=int)
 
-        # 2. 提取预测结果 (Tracker)
         if f in ts_raw.index:
             d_ts = ts_raw.loc[f]
             boxes_ts = np.atleast_2d(d_ts.iloc[:, :4].values).astype(float).copy()
             boxes_ts[:, 2:] += boxes_ts[:, :2]
 
-            # 使用映射字典将原始 ID 转换为连续 ID
             raw_ids_ts = np.atleast_1d(d_ts.index.values).astype(int)
             ids_ts = np.array([trk_id_map[x] for x in raw_ids_ts], dtype=int)
         else:
             boxes_ts = np.empty((0, 4), dtype=float)
             ids_ts = np.empty((0,), dtype=int)
 
-        # 3. 计算 IoU 相似度矩阵
         iou_matrix = compute_iou(boxes_gt, boxes_ts)
 
-        # 4. 存入字典
         data['gt_ids'].append(ids_gt)
         data['tracker_ids'].append(ids_ts)
         data['similarity_scores'].append(iou_matrix)
 
-        # 5. 更新全局统计信息
         data['num_gt_dets'] += len(ids_gt)
         data['num_tracker_dets'] += len(ids_ts)
 
-    # 调用 HOTA 计算
     hota_metric = trackeval.metrics.HOTA()
     return hota_metric.eval_sequence(data)
 
@@ -134,12 +122,10 @@ def process_directory(directory1, directory2, output_folder):
         except Exception as e:
             print(f"[{i + 1}/{len(files)}] Error processing {file}: {e}")
 
-    # --- 汇总结果 ---
     mh = mm.metrics.create()
     metrics_list = ['mota', 'idf1', 'num_false_positives', 'num_misses', 'num_switches', 'num_objects']
     summary_mm = mh.compute_many(accs, metrics=metrics_list, names=names, generate_overall=True)
 
-    # 定义表头 (MOTA, FP, FN, IDSW, IDF1, HOTA, DetA, AssA, GT)
     header = f"{'Sequence':<25} | {'MOTA':>8} | {'FP':>8} | {'FN':>8} | {'IDSW':>8} | {'IDF1':>8} | {'HOTA':>8} | {'DetA':>8} | {'AssA':>8} | {'GT':>8}"
     table_width = len(header)
     print("\n" + "=" * table_width + "\n" + header + "\n" + "-" * table_width)
@@ -162,12 +148,10 @@ def process_directory(directory1, directory2, output_folder):
             d = np.mean(hota_results[i]['DetA']) * 100
             a = np.mean(hota_results[i]['AssA']) * 100
 
-            # 格式化输出: 小数指标保留 4 位，数量指标用整数 (d)
             line = f"{name:<25} | {m:>8.4f} | {fp:>8d} | {fn:>8d} | {idsw:>8d} | {id_score:>8.4f} | {h:>8.4f} | {d:>8.4f} | {a:>8.4f} | {gt_count:>8d}"
             print(line)
             f.write(line + "\n")
 
-        # --- 总体 OVERALL 计算 ---
         overall_mm = summary_mm.loc['OVERALL']
         o_m = overall_mm['mota'] * 100
         o_fp = int(overall_mm['num_false_positives'])
@@ -184,16 +168,10 @@ def process_directory(directory1, directory2, output_folder):
         print("-" * table_width + "\n" + final_line + "\n" + "=" * table_width)
         f.write("-" * table_width + "\n" + final_line + "\n")
 
-        # 🚀 新增：返回 MOTA 和 IDF1
         return o_m, o_id
 
 if __name__ == '__main__':
     directory1 = r'/data/dcy/MultiUAV/ValLabels'
-    directory2 = r'/home/dcy/small_target_detection/Tracking/MultiUAV_Baseline_code_and_submissi/output/predict'
-    output_folder = r'/home/dcy/small_target_detection/Tracking/MultiUAV_Baseline_code_and_submissi/output/mota/combined_metrics'
-
-    # directory2 = r'/home/dcy/small_target_detection/Tracking/NeuralTBD/experiments/output/predict/results'
-    # output_folder = r'/home/dcy/small_target_detection/Tracking/NeuralTBD/experiments/output/predict/combined_metrics'
-
-
+    directory2 = r'/home/dcy/small_target_detection/Tracking/NeuralTBD/experiments/output/predict/results'
+    output_folder = r'/home/dcy/small_target_detection/Tracking/NeuralTBD/experiments/output/predict/combined_metrics'
     process_directory(directory1, directory2, output_folder)
