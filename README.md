@@ -6,9 +6,9 @@ This repository contains the algorithm done in the work Joint Neural Kinematic P
 **News**:We will release the complete code after the paper is accepted.
 
 ## Visualization effect
-<img src="./figs/MultiUAV-007.gif" alt="Vis" style="width: 250px; height: auto;">
-<img src="./figs/MultiUAV-185.gif" alt="Vis" style="width: 250px; height: auto;">
-<img src="./figs/MultiUAV-233.gif" alt="Vis" style="width: 250px; height: auto;">
+<img src="./figs/MultiUAV-007.gif" alt="Vis" style="width: 500px; height: auto;">
+<img src="./figs/MultiUAV-185.gif" alt="Vis" style="width: 500px; height: auto;">
+<img src="./figs/MultiUAV-233.gif" alt="Vis" style="width: 500px; height: auto;">
 
 ## Motivation
 <img src="./figs/fig1.png" alt="Motivation" style="width: 800px; height: auto;">
