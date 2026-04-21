@@ -41,7 +41,7 @@ The annotation format for each video is as follows:
 
 **Weights**: 
 
-[Weight](./experiments/NeuralTBD/MultiUAV_280_best.pth) for Anti-UAV Track3
+[Weight](./experiments/NeuralTBD) for Anti-UAV Track3
 
 To facilitate readers' frame-by-frame training, we have uploaded the processed dataset images, test set division, and the complete Detection txt to Baidu Netdisk. They will be made publicly available for download after the paper is accepted.
 
