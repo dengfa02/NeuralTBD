@@ -1,0 +1,47 @@
+eps: 0.001
+eval_mode: True # False  训练时False
+#eval_mode: True
+
+# optimizer
+lr: 0.00005
+# train
+data_dir: '/data/dcy/MultiUAV/img_train' #'/mnt/8T/home/estar/data/DanceTrack/trackers_gt'
+gmc_dir: '/data/dcy/MultiUAV/gmc_txt'  # 背景矫正计算文件
+gt_dir: '/data/dcy/MultiUAV/ValLabels'  # 评估的gt文件
+#diffnet: HMINet
+interval: 5  # 输入帧数
+augment: True
+encoder_dim: 256
+tf_layer: 3
+epochs: 400
+batch_size: 2048
+seed: 42
+eval_every: 20  # 训练时每多少轮评估一次50
+gpus: [6]  # [0,1,2,3]  训练用的双卡67
+
+# Testing
+eval_at: 400
+checkpoint_dir: '/home/dcy/small_target_detection/Tracking/NeuralTBD/experiments/A-MLProuteDetach_5frame_5e-5lr_0.100.5_sw0histjit0EXT0.1_step3_E400_Max400_Gate100Freeze/MultiUAV_280_best.pt' # 模型权重文件的保存路径
+det_dir: '/home/dcy/small_target_detection/Tracking/MultiUAV_Baseline_code_and_submissi/output/detection_txt' # "/mnt/8T/home/estar/data/DanceTrack/detections/val"
+val_dir: '/data/dcy/MultiUAV/img_val' #'/mnt/8T/home/estar/data/DanceTrack/val'
+# reid_dir: "./cache/embeddings/"
+save_dir: '/home/dcy/small_target_detection/Tracking/NeuralTBD/experiments/output/predict' # 测试结果的保存路径
+eval_expname: NeuralTBD # 创建实验的模型保存文件名称与log文件夹名称
+high_thres: 0.5 # org0.6
+low_thres: 0.1  # org0.4
+#w_assoc_emb: 2.2  # 外观关联权重
+#aw_param: 1.7
+preprocess_workers: 32
+
+# Data Parameters:
+device: cuda
+eval_device: None
+
+# train aug
+max_step: 3  # 帧随机的采样间隔，最长跨度为interval*max_step
+prob_occ: 0.1     # 随机遮挡概率  0.3不收敛默认0.1
+prob_fp: 0      # 随机误检概率  0.05  0.1
+prob_jitter: 0.5   # 随机位置抖动概率  0.5
+prob_idsw: 0  # 随机ID交换概率  0.1
+prob_hist_jitter: 0 # 历史位置抖动概率  0.3
+prob_extreme: 0.1  # 毁灭性破坏 0.1
