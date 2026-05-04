@@ -1,7 +1,7 @@
 
-# *<center>Joint Neural Kinematic Prior and Adaptive Filtering for Tiny UAV Multi-object Tracking</center>*
+# *<center>Deep Kinematic Filtering for Robust Multi-Object Tracking of Tiny UAVs in Infrared Video</center>*
 
-This repository contains the algorithm done in the work Joint Neural Kinematic Prior and Adaptive Filtering for Tiny UAV Multi-object Tracking by Chuiyi Deng et al.
+This repository contains the algorithm done in the work Deep Kinematic Filtering for Robust Multi-Object Tracking of Tiny UAVs in Infrared Video by Chuiyi Deng et al.
 
 **News**:We will release the complete code after the paper is accepted.
 
