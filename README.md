@@ -15,10 +15,10 @@ This repository contains the algorithm done in the work Deep Kinematic Filtering
 <img src="./figs/fig2.png" alt="Motivation" style="width: 800px; height: auto;">
 
 ## Structure
-<img src="./figs/fig2.png" alt="Structure" style="width: 800px; height: auto;">
+<img src="./figs/fig3.png" alt="Structure" style="width: 800px; height: auto;">
 
 ## Results
-<img src="./figs/fig3.png" alt="Results" style="width: 800px; height: auto;">
+<img src="./figs/fig4.png" alt="Results" style="width: 800px; height: auto;">
 
 ## Dataset
 Track3 in the 4th Anti-UAV Competition [Download](https://anti-uav.github.io/). You may need to register in order to download the complete training and testing sets. 
