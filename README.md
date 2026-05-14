@@ -11,7 +11,8 @@ This repository contains the algorithm done in the work Deep Kinematic Filtering
 <img src="./figs/MultiUAV-233.gif" alt="Vis" style="width: 400px; height: auto;">
 
 ## Motivation
-<img src="./figs/fig1.png" alt="Motivation" style="width: 800px; height: auto;">
+<img src="./figs/fig1.png" alt="Motivation" style="width: 500px; height: auto;">
+<img src="./figs/fig2.png" alt="Motivation" style="width: 800px; height: auto;">
 
 ## Structure
 <img src="./figs/fig2.png" alt="Structure" style="width: 800px; height: auto;">
